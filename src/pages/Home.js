@@ -11,8 +11,7 @@ function Home({ isAuth }) {
 			const data = await getDocs(postCollectionsRef);
 			setPostLists(data.docs.map((doc) => ({ ...doc.data(), id:doc.id })));
 		};
-
-		getPosts();
+    getPosts();
      // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -20,12 +19,11 @@ function Home({ isAuth }) {
 		const postDoc = doc(db, "posts", id);
 		await deleteDoc(postDoc);
 	};
-
 	return (
 		<div className='homePage'>
-			{postLists.map((post) => {
+			{postLists.map((post, index) => {
 				return (
-					<div className='post'>
+					<div key={index} className='post'>
 						<div className='postHeader'>
 							<div className='title'>
 								<h1> {post.title}</h1>
@@ -42,7 +40,8 @@ function Home({ isAuth }) {
 							</div>
 						</div>
 						<div className='postTextContainer'> {post.postText} </div>
-						<h3>@{post.author.name}</h3>
+						<h3>@{post.author?.name}</h3>
+						{/* {console.log(post.author?.name)} */}
 					</div>
 				);
 			})}
